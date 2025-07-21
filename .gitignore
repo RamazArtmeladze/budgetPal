@@ -1,0 +1,29 @@
+# Java
+*.class
+*.jar
+*.war
+
+# Maven/Gradle
+/target/
+/build/
+.mvn/
+HELP.md
+
+# IntelliJ IDEA
+.idea/
+/*.iml
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+
+# Spring Boot devtools
+.spring-boot-devtools.properties
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
