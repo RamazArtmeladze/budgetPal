@@ -1,5 +1,7 @@
 package com.budgetPal.dto;
 
+import com.budgetPal.model.Role;
+
 import java.util.UUID;
 
 public record UserModelDto(
@@ -11,6 +13,6 @@ public record UserModelDto(
 
         String email,
 
-        String password
+        Role role
 ) {
 }
