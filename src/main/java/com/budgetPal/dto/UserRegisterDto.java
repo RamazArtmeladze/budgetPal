@@ -1,11 +1,14 @@
 package com.budgetPal.dto;
 
+import jakarta.validation.constraints.Email;
+
 public record UserRegisterDto (
 
     String name,
 
     String lastName,
 
+    @Email(message = "email must be valid")
     String email,
 
     String password,

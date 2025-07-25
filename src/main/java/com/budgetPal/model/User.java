@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,6 +40,7 @@ public class User {
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true)
+    @Email(message = "email must be valid")
     private String email;
 
     @Enumerated(EnumType.STRING)
