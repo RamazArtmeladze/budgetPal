@@ -1,0 +1,202 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3-create-expense-types-table
+      author: ramaz
+      changes:
+        - createTable:
+            tableName: expense_types
+            columns:
+              - column:
+                  name: expense_type_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 4-create-payment-types-table
+      author: ramaz
+      changes:
+        - createTable:
+            tableName: payment_types
+            columns:
+              - column:
+                  name: payment_type_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 5-create-budgets-table
+      author: ramaz
+      changes:
+        - createTable:
+            tableName: budgets
+            columns:
+              - column:
+                  name: budget_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: name
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: total_amount
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: start_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: end_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: expense_type_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+
+              - column:
+                  name: user_id
+                  type: UUID
+                  constraints:
+                    nullable: true
+
+        - addForeignKeyConstraint:
+            baseTableName: budgets
+            baseColumnNames: expense_type_id
+            referencedTableName: expense_types
+            referencedColumnNames: expense_type_id
+            onDelete: SET NULL
+            constraintName: fk_budget_expense_type
+
+        - addForeignKeyConstraint:
+            baseTableName: budgets
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            onDelete: CASCADE
+            constraintName: fk_budget_user
+
+  - changeSet:
+      id: 6-create-transactions-table
+      author: ramaz
+      changes:
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: transaction_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+                    unique: true
+
+              - column:
+                  name: amount
+                  type: DECIMAL(10,2)
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: transaction_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: expense_type_id
+                  type: UUID
+
+              - column:
+                  name: payment_type_id
+                  type: UUID
+
+              - column:
+                  name: budget_id
+                  type: UUID
+
+              - column:
+                  name: user_id
+                  type: UUID
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: expense_type_id
+            referencedTableName: expense_types
+            referencedColumnNames: expense_type_id
+            onDelete: SET NULL
+            constraintName: fk_transaction_expense_type
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: payment_type_id
+            referencedTableName: payment_types
+            referencedColumnNames: payment_type_id
+            onDelete: SET NULL
+            constraintName: fk_transaction_payment_type
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: budget_id
+            referencedTableName: budgets
+            referencedColumnNames: budget_id
+            onDelete: SET NULL
+            constraintName: fk_transaction_budget
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            onDelete: CASCADE
+            constraintName: fk_transaction_user

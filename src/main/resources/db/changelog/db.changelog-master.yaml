@@ -1,5 +1,7 @@
 databaseChangeLog:
-  - includeAll:
-      path: db/changelog/create
-  - includeAll:
-      path: db/changelog/update
+  - include:
+      file: db/changelog/create/create-users-table.yaml
+  - include:
+      file: db/changelog/update/add-role-column-users-table.yaml
+  - include:
+      file: db/changelog/create/create-tables.yaml
