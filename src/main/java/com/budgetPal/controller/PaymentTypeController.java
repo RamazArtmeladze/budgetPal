@@ -30,5 +30,8 @@ public class PaymentTypeController {
     @DeleteMapping("/delete")
     public ResponseEntity<?> deletePaymentType(@RequestBody PaymentTypeDto paymentTypeDto){
 
+        paymentTypeService.deletePaymentType(paymentTypeDto);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
