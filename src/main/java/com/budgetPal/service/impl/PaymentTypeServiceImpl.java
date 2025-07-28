@@ -1,7 +1,6 @@
 package com.budgetPal.service.impl;
 
 import com.budgetPal.dto.PaymentTypeDto;
-import com.budgetPal.dto.PaymentTypeModelDto;
 import com.budgetPal.mapper.PaymentTypeMapper;
 import com.budgetPal.model.PaymentType;
 import com.budgetPal.repository.PaymentTypeRepository;
@@ -21,7 +20,7 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
     private final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
 
     @Override
-    public PaymentTypeModelDto paymentTypeRegister(PaymentTypeDto paymentTypeDto) {
+    public PaymentTypeDto paymentTypeRegister(PaymentTypeDto paymentTypeDto) {
 
         PaymentType savedPaymentType =paymentTypeRepository.save(paymentTypeMapper.toEntity(paymentTypeDto));
 

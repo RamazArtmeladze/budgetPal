@@ -1,7 +1,6 @@
 package com.budgetPal.mapper;
 
 import com.budgetPal.dto.PaymentTypeDto;
-import com.budgetPal.dto.PaymentTypeModelDto;
 import com.budgetPal.model.PaymentType;
 import org.mapstruct.Mapper;
 
@@ -10,5 +9,5 @@ public interface PaymentTypeMapper {
 
    PaymentType toEntity(PaymentTypeDto paymentTypeDto);
 
-   PaymentTypeModelDto toDto(PaymentType paymentType);
+   PaymentTypeDto toDto(PaymentType paymentType);
 }

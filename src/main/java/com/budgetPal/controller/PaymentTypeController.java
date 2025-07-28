@@ -1,7 +1,6 @@
 package com.budgetPal.controller;
 
 import com.budgetPal.dto.PaymentTypeDto;
-import com.budgetPal.dto.PaymentTypeModelDto;
 import com.budgetPal.service.PaymentTypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,9 @@ public class PaymentTypeController {
     @PostMapping("/register")
     public ResponseEntity<?> registerPaymentType(@RequestBody PaymentTypeDto paymentTypeDto) {
 
-        PaymentTypeModelDto paymentTypeModelDto = paymentTypeService.paymentTypeRegister(paymentTypeDto);
+        PaymentTypeDto paymentTypeRegister = paymentTypeService.paymentTypeRegister(paymentTypeDto);
 
-        return new ResponseEntity<>(paymentTypeModelDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(paymentTypeRegister, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete")
@@ -32,6 +31,6 @@ public class PaymentTypeController {
 
         paymentTypeService.deletePaymentType(paymentTypeDto);
 
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("successfully deleted",HttpStatus.ACCEPTED);
     }
 }
