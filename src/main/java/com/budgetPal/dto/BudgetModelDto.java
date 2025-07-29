@@ -13,7 +13,7 @@ public record BudgetModelDto(
         BigDecimal totalAmount,
         LocalDate startDate,
         LocalDate endDate,
-        UUID expenseType,
+        UUID expenseTypeId,
         LocalDateTime createdAt
 ) {
 }
