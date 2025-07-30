@@ -22,4 +22,9 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
 
         return expenseTypeMapper.toDto(savedExpenseType);
     }
+
+    @Override
+    public void deleteExpenseType(String name) {
+        expenseTypeRepository.deleteById(expenseTypeRepository.findByName(name).get().getExpenseTypeId());
+    }
 }

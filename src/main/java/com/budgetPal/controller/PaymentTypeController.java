@@ -5,6 +5,7 @@ import com.budgetPal.service.PaymentTypeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +20,7 @@ public class PaymentTypeController {
     private final PaymentTypeService paymentTypeService;
 
     @PostMapping("/register")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerPaymentType(@RequestBody PaymentTypeDto paymentTypeDto) {
 
         PaymentTypeDto paymentTypeRegister = paymentTypeService.paymentTypeRegister(paymentTypeDto);
@@ -27,6 +29,7 @@ public class PaymentTypeController {
     }
 
     @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deletePaymentType(@RequestBody PaymentTypeDto paymentTypeDto){
 
         paymentTypeService.deletePaymentType(paymentTypeDto);
