@@ -2,7 +2,7 @@ package com.budgetPal.controller;
 
 import com.budgetPal.dto.PaymentTypeDto;
 import com.budgetPal.service.PaymentTypeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/app/paymentTypes")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PaymentTypeController {
 
     private final PaymentTypeService paymentTypeService;

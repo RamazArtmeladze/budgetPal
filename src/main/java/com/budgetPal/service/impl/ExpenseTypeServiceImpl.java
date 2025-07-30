@@ -5,11 +5,11 @@ import com.budgetPal.mapper.ExpenseTypeMapper;
 import com.budgetPal.model.ExpenseType;
 import com.budgetPal.repository.ExpenseTypeRepository;
 import com.budgetPal.service.ExpenseTypeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExpenseTypeServiceImpl implements ExpenseTypeService {
 
     private final ExpenseTypeRepository expenseTypeRepository;

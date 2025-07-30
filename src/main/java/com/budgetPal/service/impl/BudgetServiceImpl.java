@@ -12,12 +12,14 @@ import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.BudgetService;
 import com.budgetPal.utility.GetSignedEmail;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetMapper budgetMapper;
@@ -43,5 +45,13 @@ public class BudgetServiceImpl implements BudgetService {
         Budget savedBudget = budgetRepository.save(budget);
 
         return budgetMapper.toDto(savedBudget);
+    }
+
+    @Override
+    public List<BudgetModelDto> getBudgetByUserId(UUID userId) {
+
+        List<Budget> budget = budgetRepository.findByUserId(userId).stream().toList();
+
+        return budgetMapper.toDto(budget);
     }
 }

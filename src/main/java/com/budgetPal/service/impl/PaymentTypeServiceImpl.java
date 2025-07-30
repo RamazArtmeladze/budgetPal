@@ -6,13 +6,13 @@ import com.budgetPal.model.PaymentType;
 import com.budgetPal.repository.PaymentTypeRepository;
 import com.budgetPal.service.PaymentTypeService;
 import com.budgetPal.utility.JwtUtil;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PaymentTypeServiceImpl implements PaymentTypeService {
 
     private final PaymentTypeRepository paymentTypeRepository;

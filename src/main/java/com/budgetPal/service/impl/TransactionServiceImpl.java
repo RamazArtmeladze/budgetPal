@@ -15,10 +15,11 @@ import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.TransactionService;
 import com.budgetPal.utility.GetSignedEmail;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionMapper transactionMapper;

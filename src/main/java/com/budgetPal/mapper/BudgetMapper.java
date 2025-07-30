@@ -6,6 +6,8 @@ import com.budgetPal.model.Budget;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class})
 public interface BudgetMapper {
 
@@ -16,4 +18,6 @@ public interface BudgetMapper {
 
     @Mapping(target = "expenseTypeId", source = "expenseType.expenseTypeId")
     BudgetModelDto toDto(Budget budget);
+
+    List<BudgetModelDto> toDto(List<Budget> budgets);
 }

@@ -2,7 +2,7 @@ package com.budgetPal.controller;
 
 import com.budgetPal.dto.ExpenseTypeDto;
 import com.budgetPal.service.ExpenseTypeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/app/expenseTypes")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExpenseTypeController {
 
     private final ExpenseTypeService expenseTypeService;
