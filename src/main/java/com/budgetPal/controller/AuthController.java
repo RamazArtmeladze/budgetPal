@@ -3,7 +3,6 @@ package com.budgetPal.controller;
 import com.budgetPal.dto.AuthRequest;
 import com.budgetPal.utility.JwtUtil;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

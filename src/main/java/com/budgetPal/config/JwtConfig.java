@@ -1,16 +1,14 @@
 package com.budgetPal.config;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Getter
 @Configuration
 @ConfigurationProperties(prefix = "jwt")
+@Setter
 public class JwtConfig {
     private String secret;
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
 }

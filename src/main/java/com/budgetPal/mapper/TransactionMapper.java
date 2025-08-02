@@ -4,8 +4,9 @@ import com.budgetPal.dto.TransactionDto;
 import com.budgetPal.model.Transaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class})
+@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TransactionMapper {
 
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")

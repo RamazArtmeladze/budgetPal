@@ -31,7 +31,7 @@ public class PaymentType {
     private UUID paymentTypeId;
 
     @Column(name = "name", nullable = false, unique = true)
-    private String name; // byCash, byCard, byBitcoin
+    private String name;
 
     @OneToMany(mappedBy = "paymentType", fetch = FetchType.LAZY)
     private List<Transaction> transactions;

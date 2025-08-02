@@ -2,17 +2,20 @@ package com.budgetPal.service.impl;
 
 import com.budgetPal.dto.UserModelDto;
 import com.budgetPal.dto.UserRegisterDto;
+import com.budgetPal.exception.UserNotFoundException;
 import com.budgetPal.mapper.UserModelMapper;
 import com.budgetPal.model.User;
 import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_EMAIL_MESSAGE;
+import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_ID_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService {
     public UserModelDto getUserById(UUID userId) {
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_ID_MESSAGE));
 
         return userModelMapper.toDto(user);
     }
@@ -46,7 +49,7 @@ public class UserServiceImpl implements UserService {
     public UserModelDto getUserByEmail(String userEmail) {
 
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE));
 
         return userModelMapper.toDto(user);
     }
@@ -63,7 +66,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String email) {
 
         userRepository.delete(userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found")));
-
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE)));
     }
 }

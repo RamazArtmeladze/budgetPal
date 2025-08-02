@@ -11,7 +11,7 @@ public class GetSignedEmail {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal instanceof UserDetails userDetails) {
-            return userDetails.getUsername(); // e.g. email
+            return userDetails.getUsername();
         } else {
             return principal.toString();
         }

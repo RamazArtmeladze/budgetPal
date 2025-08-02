@@ -1,6 +1,5 @@
 package com.budgetPal.controller;
 
-
 import com.budgetPal.dto.UserModelDto;
 import com.budgetPal.dto.UserRegisterDto;
 import com.budgetPal.service.UserService;

@@ -5,12 +5,12 @@ import com.budgetPal.dto.UserRegisterDto;
 import com.budgetPal.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class, com.budgetPal.model.Role.class})
+@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class, com.budgetPal.model.Role.class}, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserModelMapper {
-
 
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     @Mapping(target = "isActive", constant = "true")

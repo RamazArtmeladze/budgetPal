@@ -2,6 +2,7 @@ package com.budgetPal.service.impl;
 
 import com.budgetPal.dto.BudgetDto;
 import com.budgetPal.dto.BudgetModelDto;
+import com.budgetPal.exception.UserNotFoundException;
 import com.budgetPal.mapper.BudgetMapper;
 import com.budgetPal.model.Budget;
 import com.budgetPal.model.ExpenseType;
@@ -11,12 +12,14 @@ import com.budgetPal.repository.ExpenseTypeRepository;
 import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.BudgetService;
 import com.budgetPal.utility.GetSignedEmail;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.budgetPal.utility.MessageConstants.EXPENSE_TYPE_NOT_FOUND_MESSAGE;
+import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_ID_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +36,11 @@ public class BudgetServiceImpl implements BudgetService {
 
         User user = userRepository
                 .findByEmail(getSignedEmail.getCurrentUserEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_ID_MESSAGE));
 
         ExpenseType expenseType = expenseTypeRepository
                 .findById(budgetDto.expenseTypeId())
-                .orElseThrow(() -> new RuntimeException("Expense type not found"));
+                .orElseThrow(() -> new UserNotFoundException(EXPENSE_TYPE_NOT_FOUND_MESSAGE));
 
         Budget budget = budgetMapper.toEntity(budgetDto);
         budget.setUser(user);

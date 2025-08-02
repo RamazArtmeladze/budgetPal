@@ -5,10 +5,11 @@ import com.budgetPal.dto.BudgetModelDto;
 import com.budgetPal.model.Budget;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class})
+@Mapper(componentModel = "spring", imports = {java.time.LocalDateTime.class},unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BudgetMapper {
 
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")

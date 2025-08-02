@@ -2,13 +2,11 @@ package com.budgetPal.service;
 
 import com.budgetPal.dto.UserModelDto;
 import com.budgetPal.dto.UserRegisterDto;
-import com.budgetPal.model.User;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
-
     UserModelDto userRegistration (UserRegisterDto userRegisterDto);
 
     UserModelDto getUserById (UUID userId);
