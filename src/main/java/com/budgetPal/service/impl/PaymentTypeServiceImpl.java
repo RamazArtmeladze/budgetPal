@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentTypeServiceImpl implements PaymentTypeService {
@@ -40,5 +42,12 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
         } else {
             logger.info("Payment type '{}' not found, cannot delete", paymentTypeDto.name());
         }
+    }
+
+    @Override
+    public List<PaymentTypeDto> getAllPaymentType() {
+        List<PaymentType> paymentTypes =  paymentTypeRepository.findAll();
+
+        return paymentTypeMapper.toDto(paymentTypes);
     }
 }

@@ -8,6 +8,8 @@ import com.budgetPal.service.ExpenseTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ExpenseTypeServiceImpl implements ExpenseTypeService {
@@ -26,5 +28,13 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
     @Override
     public void deleteExpenseType(String name) {
         expenseTypeRepository.deleteById(expenseTypeRepository.findByName(name).get().getExpenseTypeId());
+    }
+
+    @Override
+    public List<ExpenseTypeDto> getAllExpenseType() {
+
+        List<ExpenseType> expenseTypes = expenseTypeRepository.findAll();
+
+        return expenseTypeMapper.toDto(expenseTypes);
     }
 }

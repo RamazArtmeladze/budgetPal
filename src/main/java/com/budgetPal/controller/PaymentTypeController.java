@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/app/paymentTypes")
 @RequiredArgsConstructor
@@ -35,5 +37,12 @@ public class PaymentTypeController {
         paymentTypeService.deletePaymentType(paymentTypeDto);
 
         return new ResponseEntity<>("successfully deleted",HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/getAll")
+    public ResponseEntity<?> gelAllPaymentType () {
+        List<PaymentTypeDto> paymentTypes = paymentTypeService.getAllPaymentType();
+
+        return new ResponseEntity<>(paymentTypes, HttpStatus.OK);
     }
 }
