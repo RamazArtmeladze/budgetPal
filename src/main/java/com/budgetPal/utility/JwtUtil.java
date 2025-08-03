@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -31,12 +32,13 @@ public class JwtUtil {
         }
     }
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(UUID userId, String username, List<String> roles) {
         try {
             return Jwts.builder()
                     .subject(username)
                     .issuedAt(new Date())
                     .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .claim("userId",userId.toString())
                     .claim("roles", roles)
                     .signWith(secretKey)
                     .compact();

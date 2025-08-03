@@ -1,6 +1,9 @@
 package com.budgetPal.controller;
 
 import com.budgetPal.dto.AuthRequest;
+import com.budgetPal.exception.UserNotFoundException;
+import com.budgetPal.model.User;
+import com.budgetPal.repository.UserRepository;
 import com.budgetPal.utility.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
+
+import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_EMAIL_MESSAGE;
 
 @RestController
 @RequestMapping("/auth")
@@ -23,6 +29,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
     @PostMapping("/login")
     public String generateToken(@RequestBody @Valid AuthRequest authRequest) {
@@ -35,7 +42,12 @@ public class AuthController {
                     .map(GrantedAuthority::getAuthority)
                     .toList();
 
-            return jwtUtil.generateToken(authRequest.getEmail(), roles);
+            User user = userRepository.findByEmail(authRequest.getEmail())
+                    .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE));
+            UUID userId = user.getUserId();
+
+            return jwtUtil.generateToken(userId, authRequest.getEmail(), roles);
+
         } catch (AuthenticationException ex) {
             throw new RuntimeException("invalid credentials");
         }
