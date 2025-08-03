@@ -38,4 +38,12 @@ public class BudgetController {
 
         return new ResponseEntity<>(budgets, HttpStatus.OK);
     }
+
+    @GetMapping("/byExpenseType/{name}")
+    public ResponseEntity<?> getBudgetByExpenseType (@PathVariable("name") String name) {
+
+        List<BudgetModelDto> budgets = budgetService.getBudgetByExpenseType(name);
+
+        return new ResponseEntity<>(budgets, HttpStatus.OK);
+    }
 }
