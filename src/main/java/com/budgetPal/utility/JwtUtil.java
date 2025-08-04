@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -20,6 +21,7 @@ public class JwtUtil {
 
     private final SecretKey secretKey;
     private final Logger logger = LoggerFactory.getLogger(JwtUtil.class);
+    private final long expirationMillis = 1000 * 60 * 60;
 
     public JwtUtil(JwtConfig jwtConfig) {
         try {
@@ -34,12 +36,18 @@ public class JwtUtil {
 
     public String generateToken(UUID userId, String username, List<String> roles) {
         try {
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", userId.toString());
+            claims.put("roles", roles);
+
+            Date now = new Date();
+            Date expirationDate = new Date(now.getTime() + expirationMillis);
+
             return Jwts.builder()
+                    .claims(claims)
                     .subject(username)
-                    .issuedAt(new Date())
-                    .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                    .claim("userId",userId.toString())
-                    .claim("roles", roles)
+                    .issuedAt(now)
+                    .expiration(expirationDate)
                     .signWith(secretKey)
                     .compact();
         } catch (Exception e) {
@@ -93,17 +101,13 @@ public class JwtUtil {
         }
     }
 
-    public List<String> getRolesFromToken(String token) {
+    public UUID getUserIdFromToken(String token) {
         try {
-            Claims claims = getClaimsFromToken(token);
-            Object rolesObject = claims.get("roles");
-            if (rolesObject instanceof List) {
-                return (List<String>) rolesObject;
-            }
-            return new ArrayList<>();
+            String userIdStr = (String) getClaimsFromToken(token).get("userId");
+            return UUID.fromString(userIdStr);
         } catch (Exception e) {
-            logger.error("Error getting roles from JWT token: " + e.getMessage(), e);
-            return new ArrayList<>();
+            logger.error("Error getting userId from JWT token: " + e.getMessage(), e);
+            return null;
         }
     }
 }
