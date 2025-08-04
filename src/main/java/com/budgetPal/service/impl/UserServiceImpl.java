@@ -39,6 +39,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserModelDto updateUserNameByEmail(UserRegisterDto userRegisterDto) {
+
+        User user = userRepository.findByEmail(userRegisterDto.email())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE));
+
+        user.setName(userRegisterDto.name());
+
+        User updatedUser =  userRepository.save(user);
+
+        return userModelMapper.toDto(updatedUser);
+    }
+
+    @Override
+    public UserModelDto updateUserLastNameByEmail(UserRegisterDto userRegisterDto) {
+        User user = userRepository.findByEmail(userRegisterDto.email())
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE));
+
+        user.setLastName(userRegisterDto.lastName());
+
+        User updatedUser =  userRepository.save(user);
+
+        return userModelMapper.toDto(updatedUser);
+    }
+
+    @Override
     public UserModelDto getUserById(UUID userId) {
 
         User user = userRepository.findById(userId)

@@ -9,6 +9,10 @@ import java.util.UUID;
 public interface UserService {
     UserModelDto userRegistration (UserRegisterDto userRegisterDto);
 
+    UserModelDto updateUserNameByEmail (UserRegisterDto userRegisterDto);
+
+    UserModelDto updateUserLastNameByEmail (UserRegisterDto userRegisterDto);
+
     UserModelDto getUserById (UUID userId);
 
     UserModelDto getUserByEmail (String userEmail);
