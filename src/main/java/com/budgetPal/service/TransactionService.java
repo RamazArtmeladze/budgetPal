@@ -18,11 +18,11 @@ public interface TransactionService {
 
     Page<TransactionDto> getTransactionsByUserId(Pageable pageable, UUID userId);
 
-    TransactionDto getTransactionsById(UUID Id);
+    TransactionDto getTransactionById(UUID id);
 
     Page<TransactionDto> getAll(Pageable pageable);
 
-    List<TransactionDto> getTransactionsByBudget(UUID name);
+    List<TransactionDto> getTransactionsByBudget(UUID budgetId);
 
     List<TransactionDto> getTransactionsByExpenseType(String name);
 
@@ -32,7 +32,7 @@ public interface TransactionService {
 
     BigDecimal getSumOfTransactionsAmountByExpenseType(UUID expenseTypeId);
 
-    BigDecimal getSumOfTransactionsAmountByPaymentType(UUID PaymentTypeId);
+    BigDecimal getSumOfTransactionsAmountByPaymentType(UUID paymentTypeId);
 
     List<TransactionDto> getTransactionsBetweenDates(LocalDate from, LocalDate to);
 

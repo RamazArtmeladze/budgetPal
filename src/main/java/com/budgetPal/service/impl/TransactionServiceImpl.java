@@ -28,6 +28,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.budgetPal.utility.MessageConstants.BUDGET_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.EXPENSE_TYPE_NOT_FOUND_MESSAGE;
@@ -111,53 +112,103 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto getTransactionsById(UUID Id) {
-        return null;
+    public TransactionDto getTransactionById(UUID id) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new TransactionNotFoundException(TRANSACTION_NOT_FOUND_MESSAGE));
+
+        return transactionMapper.toDto(transaction);
     }
 
     @Override
     public Page<TransactionDto> getAll(Pageable pageable) {
-        return null;
+        Page<Transaction> page = transactionRepository.findAll(pageable);
+
+        return page.map(transactionMapper::toDto);
     }
 
     @Override
-    public List<TransactionDto> getTransactionsByBudget(UUID name) {
-        return List.of();
+    public List<TransactionDto> getTransactionsByBudget(UUID budgetId) {
+        List<Transaction> transactions = transactionRepository.findByBudgetId(budgetId);
+
+        return transactions.stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDto> getTransactionsByExpenseType(String name) {
-        return List.of();
+
+        ExpenseType expenseType = expenseTypeRepository.findByName(name)
+                .orElseThrow(() -> new ExpenseTypeNotFoundException(EXPENSE_TYPE_NOT_FOUND_MESSAGE));
+
+        List<Transaction> transactions = transactionRepository.findByExpenseTypeId(expenseType.getExpenseTypeId());
+
+        return transactions.stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<TransactionDto> getTransactionsByPaymentType(String name) {
-        return List.of();
+
+        PaymentType paymentType = paymentTypeRepository.findByName(name)
+                .orElseThrow(() -> new PaymentTypeNotFoundException(PAYMENT_TYPE_NOT_FOUND_MESSAGE));
+
+        List<Transaction> transactions = transactionRepository.findByPaymentTypeId(paymentType.getPaymentTypeId());
+
+        return transactions.stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public BigDecimal getSumOfTransactionsAmountByBudget(UUID budgetId) {
-        return null;
+
+        List<Transaction> transactions = transactionRepository.findByBudgetId(budgetId);
+
+        return transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
     public BigDecimal getSumOfTransactionsAmountByExpenseType(UUID expenseTypeId) {
-        return null;
+
+        List<Transaction> transactions = transactionRepository.findByExpenseTypeId(expenseTypeId);
+
+        return transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
-    public BigDecimal getSumOfTransactionsAmountByPaymentType(UUID PaymentTypeId) {
-        return null;
+    public BigDecimal getSumOfTransactionsAmountByPaymentType(UUID paymentTypeId) {
+
+        List<Transaction> transactions = transactionRepository.findByPaymentTypeId(paymentTypeId);
+
+        return transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
     public List<TransactionDto> getTransactionsBetweenDates(LocalDate from, LocalDate to) {
-        return List.of();
+
+        List<Transaction> transactions = transactionRepository.findByTransactionDateBetween(from, to);
+
+        return transactions.stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
     public BigDecimal getSumBetweenDates(LocalDate from, LocalDate to) {
-        return null;
+
+        List<Transaction> transactions = transactionRepository.findByTransactionDateBetween(from, to);
+
+        return transactions.stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private User findUser(){

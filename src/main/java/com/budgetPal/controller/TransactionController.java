@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -56,4 +60,76 @@ public class TransactionController {
         return new ResponseEntity<>(transactions, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getTransactionById(@PathVariable ("id") UUID id) {
+        TransactionDto dto = transactionService.getTransactionById(id);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTransactions(Pageable pageable) {
+        Page<TransactionDto> page = transactionService.getAll(pageable);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/byBudget/{budgetId}")
+    public ResponseEntity<?> getTransactionsByBudget(@PathVariable ("budgetId") UUID budgetId) {
+
+        List<TransactionDto> transactions = transactionService.getTransactionsByBudget(budgetId);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/byExpenseType/{name}")
+    public ResponseEntity<?> getTransactionsByExpenseType(@PathVariable ("name") String name) {
+        List<TransactionDto> transactions = transactionService.getTransactionsByExpenseType(name);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/byPaymentType/{name}")
+    public ResponseEntity<?> getTransactionsByPaymentType(@PathVariable("name") String name) {
+        List<TransactionDto> transactions = transactionService.getTransactionsByPaymentType(name);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/sum/byBudget/{budgetId}")
+    public ResponseEntity<?> getSumOfTransactionsByBudget(@PathVariable("budgetId") UUID budgetId) {
+        BigDecimal sum = transactionService.getSumOfTransactionsAmountByBudget(budgetId);
+
+        return new ResponseEntity<>(sum, HttpStatus.OK);
+    }
+
+    @GetMapping("/sum/byExpenseType/{expenseTypeId}")
+    public ResponseEntity<?> getSumOfTransactionsByExpenseType(@PathVariable("expenseTypeId") UUID expenseTypeId) {
+        BigDecimal sum = transactionService.getSumOfTransactionsAmountByExpenseType(expenseTypeId);
+
+        return new ResponseEntity<>(sum, HttpStatus.OK);
+    }
+
+    @GetMapping("/sum/byPaymentType/{paymentTypeId}")
+    public ResponseEntity<BigDecimal> getSumOfTransactionsByPaymentType(@PathVariable ("paymentTypeId")  UUID paymentTypeId) {
+        BigDecimal sum = transactionService.getSumOfTransactionsAmountByPaymentType(paymentTypeId);
+
+        return new ResponseEntity<>(sum, HttpStatus.OK);
+    }
+
+    @GetMapping("/betweenDates")
+    public ResponseEntity<List<TransactionDto>> getTransactionsBetweenDates(@RequestParam("from") LocalDate from,
+            @RequestParam("to") LocalDate to) {
+
+        List<TransactionDto> transactions = transactionService.getTransactionsBetweenDates(from, to);
+
+        return new ResponseEntity<>(transactions, HttpStatus.OK);
+    }
+
+    @GetMapping("/sum/betweenDates")
+    public ResponseEntity<BigDecimal> getSumBetweenDates(@RequestParam("from") LocalDate from, @RequestParam("to") LocalDate to) {
+        BigDecimal sum = transactionService.getSumBetweenDates(from, to);
+
+        return new ResponseEntity<>(sum, HttpStatus.OK);
+    }
 }
