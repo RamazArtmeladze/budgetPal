@@ -1,6 +1,8 @@
 package com.budgetPal.service.impl;
 
 import com.budgetPal.dto.PaymentTypeDto;
+import com.budgetPal.exception.PaymentTypeAlreadyExistException;
+import com.budgetPal.exception.PaymentTypeNotFoundException;
 import com.budgetPal.mapper.PaymentTypeMapper;
 import com.budgetPal.model.PaymentType;
 import com.budgetPal.repository.PaymentTypeRepository;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.budgetPal.utility.MessageConstants.PAYMENT_TYPE_ALREADY_EXIST_MESSAGE;
+import static com.budgetPal.utility.MessageConstants.PAYMENT_TYPE_NOT_FOUND_MESSAGE;
+
 @Service
 @RequiredArgsConstructor
 public class PaymentTypeServiceImpl implements PaymentTypeService {
@@ -23,6 +28,10 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
 
     @Override
     public PaymentTypeDto paymentTypeRegister(PaymentTypeDto paymentTypeDto) {
+
+        if (paymentTypeRepository.findByName(paymentTypeDto.name()).isPresent()) {
+            throw new PaymentTypeAlreadyExistException(PAYMENT_TYPE_ALREADY_EXIST_MESSAGE);
+        }
 
         PaymentType savedPaymentType =paymentTypeRepository.save(paymentTypeMapper.toEntity(paymentTypeDto));
 
@@ -37,10 +46,8 @@ public class PaymentTypeServiceImpl implements PaymentTypeService {
             paymentTypeRepository.deleteById(paymentTypeRepository.findByName
                     (paymentTypeDto.name()).get().getPaymentTypeId());
 
-            logger.info("payment type {} deleted successfully", paymentTypeDto.name());
-
         } else {
-            logger.info("Payment type '{}' not found, cannot delete", paymentTypeDto.name());
+            throw new PaymentTypeNotFoundException(PAYMENT_TYPE_NOT_FOUND_MESSAGE);
         }
     }
 
