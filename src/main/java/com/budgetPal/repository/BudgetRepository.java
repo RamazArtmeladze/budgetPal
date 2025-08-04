@@ -14,5 +14,5 @@ public interface BudgetRepository extends JpaRepository<Budget, UUID> {
     List<Budget> findByUserId(@Param("userId") UUID userId);
 
     @Query(value = "SELECT * FROM budgets WHERE expense_type_id = :expenseTypeId", nativeQuery = true)
-    List<Budget> findByExpenseType(@Param("userId") UUID expenseTypeId);
+    List<Budget> findByExpenseType(@Param("expenseTypeId") UUID expenseTypeId);
 }

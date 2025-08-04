@@ -11,7 +11,7 @@ import com.budgetPal.repository.BudgetRepository;
 import com.budgetPal.repository.ExpenseTypeRepository;
 import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.BudgetService;
-import com.budgetPal.utility.GetSignedEmail;
+import com.budgetPal.utility.CurrentUserProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +29,13 @@ public class BudgetServiceImpl implements BudgetService {
     private final BudgetRepository budgetRepository;
     private final ExpenseTypeRepository expenseTypeRepository;
     private final UserRepository userRepository;
-    private final GetSignedEmail getSignedEmail;
+    private final CurrentUserProvider currentUserProvider;
 
     @Override
     public BudgetModelDto budgetRegister(BudgetDto budgetDto) {
 
         User user = userRepository
-                .findByEmail(getSignedEmail.getCurrentUserEmail())
+                .findByEmail(currentUserProvider.getCurrentUserEmail())
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_ID_MESSAGE));
 
         ExpenseType expenseType = expenseTypeRepository
