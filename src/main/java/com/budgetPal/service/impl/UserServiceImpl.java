@@ -7,6 +7,7 @@ import com.budgetPal.mapper.UserModelMapper;
 import com.budgetPal.model.User;
 import com.budgetPal.repository.UserRepository;
 import com.budgetPal.service.UserService;
+import com.budgetPal.utility.CurrentUserProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserModelMapper userModelMapper;
+    private final CurrentUserProvider currentUserProvider;
 
     @Override
     public UserModelDto userRegistration(UserRegisterDto userRegisterDto) {
@@ -67,5 +69,15 @@ public class UserServiceImpl implements UserService {
 
         userRepository.delete(userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_EMAIL_MESSAGE)));
+    }
+
+    @Override
+    public UUID getCurrentSignedUserId() {
+        return currentUserProvider.getCurrentUserId();
+    }
+
+    @Override
+    public String getCurrentSignedUserEmail() {
+        return currentUserProvider.getCurrentUserEmail();
     }
 }

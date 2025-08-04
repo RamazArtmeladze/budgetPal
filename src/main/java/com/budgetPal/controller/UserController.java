@@ -38,6 +38,22 @@ public class UserController {
         return new ResponseEntity<>(userModelDto, HttpStatus.CREATED);
     }
 
+    @GetMapping("/getCurrentSignedUserId")
+    public ResponseEntity<?> getCurrentSignedUserId () {
+
+       UUID getCurrentSignedUserId =  userService.getCurrentSignedUserId();
+
+        return new ResponseEntity<>(getCurrentSignedUserId, HttpStatus.OK);
+    }
+
+    @GetMapping("/getCurrentSignedUserEmail")
+    public ResponseEntity<?> getCurrentSignedUserEmail () {
+
+        String getCurrentSignedUserEmail =  userService.getCurrentSignedUserEmail();
+
+        return new ResponseEntity<>(getCurrentSignedUserEmail, HttpStatus.OK);
+    }
+
     @GetMapping("/by-id/{id}")
     public ResponseEntity<?> getUserById (@PathVariable("id") UUID userId) {
 

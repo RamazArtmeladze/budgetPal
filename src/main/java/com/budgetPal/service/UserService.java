@@ -16,4 +16,8 @@ public interface UserService {
     List<UserModelDto> getAllUser();
 
     void deleteUser(String email);
+
+    UUID getCurrentSignedUserId();
+
+    String getCurrentSignedUserEmail();
 }
