@@ -10,4 +10,5 @@ public class MessageConstants {
     public static final  String EXPENSE_TYPE_NOT_FOUND_MESSAGE = "expense type not found";
     public static final  String BUDGET_NOT_FOUND_MESSAGE = "budget not found";
     public static final  String PAYMENT_TYPE_NOT_FOUND_MESSAGE = "payment type not found";
+    public static final  String TRANSACTION_NOT_FOUND_MESSAGE = "transaction not found";
 }
