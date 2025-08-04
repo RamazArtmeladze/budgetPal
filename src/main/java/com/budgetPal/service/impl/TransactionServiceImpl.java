@@ -128,7 +128,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDto> getTransactionsByBudget(UUID budgetId) {
-        List<Transaction> transactions = transactionRepository.findByBudgetId(budgetId);
+        List<Transaction> transactions = transactionRepository.findByBudgetBudgetId(budgetId);
 
         return transactions.stream()
                 .map(transactionMapper::toDto)
@@ -141,7 +141,7 @@ public class TransactionServiceImpl implements TransactionService {
         ExpenseType expenseType = expenseTypeRepository.findByName(name)
                 .orElseThrow(() -> new ExpenseTypeNotFoundException(EXPENSE_TYPE_NOT_FOUND_MESSAGE));
 
-        List<Transaction> transactions = transactionRepository.findByExpenseTypeId(expenseType.getExpenseTypeId());
+        List<Transaction> transactions = transactionRepository.findByExpenseTypeExpenseTypeId(expenseType.getExpenseTypeId());
 
         return transactions.stream()
                 .map(transactionMapper::toDto)
@@ -154,7 +154,7 @@ public class TransactionServiceImpl implements TransactionService {
         PaymentType paymentType = paymentTypeRepository.findByName(name)
                 .orElseThrow(() -> new PaymentTypeNotFoundException(PAYMENT_TYPE_NOT_FOUND_MESSAGE));
 
-        List<Transaction> transactions = transactionRepository.findByPaymentTypeId(paymentType.getPaymentTypeId());
+        List<Transaction> transactions = transactionRepository.findByPaymentTypePaymentTypeId(paymentType.getPaymentTypeId());
 
         return transactions.stream()
                 .map(transactionMapper::toDto)
@@ -164,7 +164,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public BigDecimal getSumOfTransactionsAmountByBudget(UUID budgetId) {
 
-        List<Transaction> transactions = transactionRepository.findByBudgetId(budgetId);
+        List<Transaction> transactions = transactionRepository.findByBudgetBudgetId(budgetId);
 
         return transactions.stream()
                 .map(Transaction::getAmount)
@@ -174,7 +174,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public BigDecimal getSumOfTransactionsAmountByExpenseType(UUID expenseTypeId) {
 
-        List<Transaction> transactions = transactionRepository.findByExpenseTypeId(expenseTypeId);
+        List<Transaction> transactions = transactionRepository.findByExpenseTypeExpenseTypeId(expenseTypeId);
 
         return transactions.stream()
                 .map(Transaction::getAmount)
@@ -184,7 +184,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public BigDecimal getSumOfTransactionsAmountByPaymentType(UUID paymentTypeId) {
 
-        List<Transaction> transactions = transactionRepository.findByPaymentTypeId(paymentTypeId);
+        List<Transaction> transactions = transactionRepository.findByPaymentTypePaymentTypeId(paymentTypeId);
 
         return transactions.stream()
                 .map(Transaction::getAmount)
