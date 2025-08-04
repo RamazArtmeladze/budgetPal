@@ -7,7 +7,7 @@ import java.util.List;
 public interface ExpenseTypeService {
     ExpenseTypeDto expenseTypeRegister(ExpenseTypeDto expenseTypeDto);
 
-    void deleteExpenseType (String name);
+    void deleteExpenseType (ExpenseTypeDto expenseTypeDto);
 
     List<ExpenseTypeDto> getAllExpenseType ();
 }

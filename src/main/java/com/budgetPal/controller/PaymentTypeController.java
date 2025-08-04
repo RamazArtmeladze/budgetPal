@@ -21,7 +21,7 @@ public class PaymentTypeController {
 
     private final PaymentTypeService paymentTypeService;
 
-    @PostMapping("/register")
+    @PostMapping("/admin/register")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerPaymentType(@RequestBody PaymentTypeDto paymentTypeDto) {
 
@@ -30,7 +30,7 @@ public class PaymentTypeController {
         return new ResponseEntity<>(paymentTypeRegister, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/admin/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deletePaymentType(@RequestBody PaymentTypeDto paymentTypeDto){
 

@@ -23,7 +23,7 @@ public class ExpenseTypeController {
 
     private final ExpenseTypeService expenseTypeService;
 
-    @PostMapping("/register")
+    @PostMapping("/admin/register")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> expenseTypeRegister (@RequestBody ExpenseTypeDto expenseTypeDto) {
 
@@ -32,11 +32,11 @@ public class ExpenseTypeController {
         return new ResponseEntity<>(expenseTypeRegister, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/admin/delete/{expenseTypeName}")
+    @DeleteMapping("/admin/delete")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteExpenseType(@PathVariable ("expenseTypeName") String name) {
+    public ResponseEntity<?> deleteExpenseType(@RequestBody ExpenseTypeDto expenseTypeDto) {
 
-        expenseTypeService.deleteExpenseType(name);
+        expenseTypeService.deleteExpenseType(expenseTypeDto);
 
         return new ResponseEntity<>("Expense type deleted", HttpStatus.OK);
     }

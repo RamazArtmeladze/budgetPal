@@ -25,9 +25,10 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
     @Override
     public ExpenseTypeDto expenseTypeRegister(ExpenseTypeDto expenseTypeDto) {
 
-        if (expenseTypeRepository.findByName(expenseTypeDto.name()).isPresent()) {
-            throw new ExpenseTypeAlreadyExistException(EXPENSE_TYPE_ALREADY_EXIST_MESSAGE);
-        }
+        expenseTypeRepository.findByName(expenseTypeDto.name())
+                .ifPresent(p -> {
+                    throw new ExpenseTypeAlreadyExistException(EXPENSE_TYPE_ALREADY_EXIST_MESSAGE);
+                });
 
         ExpenseType savedExpenseType = expenseTypeRepository.save(expenseTypeMapper.toEntity(expenseTypeDto));
 
@@ -35,14 +36,12 @@ public class ExpenseTypeServiceImpl implements ExpenseTypeService {
     }
 
     @Override
-    public void deleteExpenseType(String name) {
+    public void deleteExpenseType(ExpenseTypeDto expenseTypeDto) {
 
-        if (expenseTypeRepository.findByName(name).isPresent()) {
-            expenseTypeRepository.deleteById(expenseTypeRepository.findByName(name).get().getExpenseTypeId());
+        ExpenseType expenseType = expenseTypeRepository.findByName(expenseTypeDto.name())
+                .orElseThrow(() -> new ExpenseTypeNotFoundException(EXPENSE_TYPE_NOT_FOUND_MESSAGE));
 
-        }else {
-            throw new ExpenseTypeNotFoundException(EXPENSE_TYPE_NOT_FOUND_MESSAGE);
-        }
+        expenseTypeRepository.deleteById(expenseType.getExpenseTypeId());
     }
 
     @Override
