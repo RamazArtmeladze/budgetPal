@@ -8,6 +8,9 @@ public class MessageConstants {
     public static final  String USER_NOT_FOUND_BY_ID_MESSAGE = "user with provided id not found";
     public static final  String USER_NOT_FOUND_BY_EMAIL_MESSAGE = "user with provided email not found";
 
+    public static final  String INVALID_CREDENTIALS_MESSAGE = "invalid credentials, please try again";
+    public static final  String DEACTIVATED_USER_MESSAGE = "user account is deactivated";
+
     public static final  String EXPENSE_TYPE_NOT_FOUND_MESSAGE = "expense type not found";
     public static final  String EXPENSE_TYPE_ALREADY_EXIST_MESSAGE = "expense type already exist";
 

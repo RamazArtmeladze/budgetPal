@@ -2,7 +2,6 @@ package com.budgetPal.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -59,9 +58,15 @@ public class GlobalExceptionHandler {
                 .body(Map.of("message", "Internal server error", "details", ex.getMessage()));
     }
 
-    @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<?> handleDisabledUser(DisabledException ex) {
+    @ExceptionHandler(DisabledUserException.class)
+    public ResponseEntity<?> handleDisabledUser(DisabledUserException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "User account is deactivated"));
+                .body(Map.of("message", ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<?> handleInvalidCredentials(InvalidCredentialsException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("message", ex.getMessage()));
     }
 }
