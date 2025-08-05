@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,6 @@ public class ExpenseType {
     @OneToMany(mappedBy = "expenseType", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 
-    @OneToMany(mappedBy = "expenseType", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "expenseTypes", fetch = FetchType.LAZY)
     private List<Budget> budgets;
 }

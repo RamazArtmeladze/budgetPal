@@ -3,6 +3,7 @@ package com.budgetPal.service.impl;
 import com.budgetPal.dto.TransactionDto;
 import com.budgetPal.exception.BudgetNotFoundException;
 import com.budgetPal.exception.ExpenseTypeNotFoundException;
+import com.budgetPal.exception.InvalidExpenseTypeException;
 import com.budgetPal.exception.PaymentTypeNotFoundException;
 import com.budgetPal.exception.TransactionNotFoundException;
 import com.budgetPal.exception.UserNotFoundException;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 
 import static com.budgetPal.utility.MessageConstants.BUDGET_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.EXPENSE_TYPE_NOT_FOUND_MESSAGE;
+import static com.budgetPal.utility.MessageConstants.INVALID_EXPENSE_TYPE_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.PAYMENT_TYPE_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.TRANSACTION_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_EMAIL_MESSAGE;
@@ -59,6 +61,10 @@ public class TransactionServiceImpl implements TransactionService {
         PaymentType paymentType = findPaymentType(transactionDto);
 
         Budget budget = findBudget(transactionDto);
+
+        if (!budget.getExpenseTypes().contains(expenseType)) {
+            throw new InvalidExpenseTypeException(INVALID_EXPENSE_TYPE_MESSAGE);
+        }
 
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         transaction.setBudget(budget);
@@ -180,15 +186,9 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new BudgetNotFoundException(BUDGET_NOT_FOUND_MESSAGE))
                 .getTotalAmount();
 
-        if (budgetAmount == null || budgetAmount.compareTo(BigDecimal.ZERO) == 0) {
-            return BigDecimal.ZERO;
-        }
-
-        BigDecimal percentage = sumOfTransactionsAmount
-                .divide(budgetAmount, 4, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100));
-
-        return percentage.setScale(0, RoundingMode.HALF_UP);
+        return  sumOfTransactionsAmount
+                .multiply(BigDecimal.valueOf(100))
+                .divide(budgetAmount, 2, RoundingMode.HALF_UP);
     }
 
     @Override

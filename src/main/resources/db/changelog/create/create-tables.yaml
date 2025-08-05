@@ -200,3 +200,63 @@ databaseChangeLog:
             referencedColumnNames: user_id
             onDelete: SET NULL
             constraintName: fk_transaction_user
+
+  - changeSet:
+      id: 7-create-budget-expense-types-join-table
+      author: ramaz
+      changes:
+        - createTable:
+            tableName: budget_expense_types
+            columns:
+              - column:
+                  name: budget_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expense_type_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: budget_expense_types
+            columnNames: budget_id, expense_type_id
+            constraintName: pk_budget_expense_types
+
+        - addForeignKeyConstraint:
+            baseTableName: budget_expense_types
+            baseColumnNames: budget_id
+            referencedTableName: budgets
+            referencedColumnNames: budget_id
+            onDelete: SET NULL
+            constraintName: fk_bet_budget
+
+        - addForeignKeyConstraint:
+            baseTableName: budget_expense_types
+            baseColumnNames: expense_type_id
+            referencedTableName: expense_types
+            referencedColumnNames: expense_type_id
+            onDelete: SET NULL
+            constraintName: fk_bet_expense_type
+
+  - changeSet:
+      id: 8-migrate-expense-type-to-join-table
+      author: ramaz
+      changes:
+        - sql:
+            splitStatements: false
+            sql: |
+              INSERT INTO budget_expense_types (budget_id, expense_type_id)
+              SELECT budget_id, expense_type_id FROM budgets WHERE expense_type_id IS NOT NULL;
+
+  - changeSet:
+      id: 9-drop-expense-type-id-from-budgets
+      author: ramaz
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: budgets
+            constraintName: fk_budget_expense_type
+        - dropColumn:
+            columnName: expense_type_id
+            tableName: budgets

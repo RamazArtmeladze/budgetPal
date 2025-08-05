@@ -13,8 +13,10 @@ public class MessageConstants {
 
     public static final  String EXPENSE_TYPE_NOT_FOUND_MESSAGE = "expense type not found";
     public static final  String EXPENSE_TYPE_ALREADY_EXIST_MESSAGE = "expense type already exist";
+    public static final  String INVALID_EXPENSE_TYPE_MESSAGE = "budget and expense type do not match";
 
     public static final  String BUDGET_NOT_FOUND_MESSAGE = "budget not found";
+
 
     public static final  String PAYMENT_TYPE_NOT_FOUND_MESSAGE = "payment type not found";
     public static final  String PAYMENT_TYPE_ALREADY_EXIST_MESSAGE = "payment type already exist";

@@ -2,6 +2,7 @@ package com.budgetPal.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public record BudgetDto(
@@ -9,6 +10,6 @@ public record BudgetDto(
         BigDecimal totalAmount,
         LocalDate startDate,
         LocalDate endDate,
-        UUID expenseTypeId
+        List<UUID> expenseTypeIds
 ) {
 }
