@@ -104,4 +104,12 @@ public class UserController {
 
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
+
+    @PatchMapping("deleteAccount/{userId}")
+    public ResponseEntity<?> softDeleteOfUser (@PathVariable("userId") UUID userId ){
+
+        userService.softDeleteOfUser(userId);
+
+        return new ResponseEntity<>("user deleted", HttpStatus.OK);
+    }
 }

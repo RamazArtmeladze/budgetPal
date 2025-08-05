@@ -97,6 +97,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void softDeleteOfUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_BY_ID_MESSAGE));
+
+        user.setActive(false);
+
+        userRepository.save(user);
+    }
+
+    @Override
     public UUID getCurrentSignedUserId() {
         return currentUserProvider.getCurrentUserId();
     }

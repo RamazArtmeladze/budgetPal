@@ -21,6 +21,8 @@ public interface UserService {
 
     void deleteUser(String email);
 
+    void softDeleteOfUser(UUID userId);
+
     UUID getCurrentSignedUserId();
 
     String getCurrentSignedUserEmail();
