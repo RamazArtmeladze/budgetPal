@@ -30,6 +30,8 @@ public interface TransactionService {
 
     BigDecimal getSumOfTransactionsAmountByBudget(UUID budgetId);
 
+    BigDecimal getSpentPercentageByBudget (UUID budgetId);
+
     BigDecimal getSumOfTransactionsAmountByExpenseType(UUID expenseTypeId);
 
     BigDecimal getSumOfTransactionsAmountByPaymentType(UUID paymentTypeId);

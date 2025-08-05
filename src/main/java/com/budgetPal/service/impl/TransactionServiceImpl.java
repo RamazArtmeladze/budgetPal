@@ -25,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -169,6 +170,25 @@ public class TransactionServiceImpl implements TransactionService {
         return transactions.stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Override
+    public BigDecimal getSpentPercentageByBudget(UUID budgetId) {
+        BigDecimal sumOfTransactionsAmount = getSumOfTransactionsAmountByBudget(budgetId);
+
+        BigDecimal budgetAmount = budgetRepository.findById(budgetId)
+                .orElseThrow(() -> new BudgetNotFoundException(BUDGET_NOT_FOUND_MESSAGE))
+                .getTotalAmount();
+
+        if (budgetAmount == null || budgetAmount.compareTo(BigDecimal.ZERO) == 0) {
+            return BigDecimal.ZERO;
+        }
+
+        BigDecimal percentage = sumOfTransactionsAmount
+                .divide(budgetAmount, 4, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100));
+
+        return percentage.setScale(0, RoundingMode.HALF_UP);
     }
 
     @Override

@@ -110,6 +110,14 @@ public class TransactionController {
         return new ResponseEntity<>(sum, HttpStatus.OK);
     }
 
+    @GetMapping("/getSpentPercentageByBudget/{budgetId}")
+    public ResponseEntity<?> getSpentPercentageByBudget (@PathVariable("budgetId") UUID budgetId) {
+
+        BigDecimal percentage = transactionService.getSpentPercentageByBudget(budgetId);
+
+        return new ResponseEntity<>(percentage, HttpStatus.OK);
+    }
+
     @GetMapping("/sum/byPaymentType/{paymentTypeId}")
     public ResponseEntity<BigDecimal> getSumOfTransactionsByPaymentType(@PathVariable ("paymentTypeId")  UUID paymentTypeId) {
         BigDecimal sum = transactionService.getSumOfTransactionsAmountByPaymentType(paymentTypeId);
