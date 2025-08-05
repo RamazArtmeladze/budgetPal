@@ -35,7 +35,6 @@ import static com.budgetPal.utility.MessageConstants.EXPENSE_TYPE_NOT_FOUND_MESS
 import static com.budgetPal.utility.MessageConstants.PAYMENT_TYPE_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.TRANSACTION_NOT_FOUND_MESSAGE;
 import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_EMAIL_MESSAGE;
-import static com.budgetPal.utility.MessageConstants.USER_NOT_FOUND_BY_ID_MESSAGE;
 
 @Service
 @RequiredArgsConstructor
