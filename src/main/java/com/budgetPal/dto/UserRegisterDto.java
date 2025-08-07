@@ -1,5 +1,6 @@
 package com.budgetPal.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 
 public record UserRegisterDto (
@@ -7,11 +8,13 @@ public record UserRegisterDto (
     String lastName,
     @Email(message = "email must be valid")
     String email,
+    @Nullable
     String password,
+    @Nullable
     String passwordConfirmation
 ) {
 
-    public UserRegisterDto UserWithHashedPassword(String password) {
+    public UserRegisterDto userWithHashedPassword(String password) {
         return new UserRegisterDto(this.name, this.lastName, this.email, password, this.passwordConfirmation);
     }
 }

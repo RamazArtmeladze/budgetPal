@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public UserModelDto userRegistration(UserRegisterDto userRegisterDto) {
         String hashedPassword = passwordEncoder.encode(userRegisterDto.password());
 
-        userRegisterDto = userRegisterDto.UserWithHashedPassword(hashedPassword);
+        userRegisterDto = userRegisterDto.userWithHashedPassword(hashedPassword);
 
         User savedUser = userRepository.save(userModelMapper.toEntity(userRegisterDto));
 
